@@ -1,0 +1,170 @@
+############################################
+# OS: Windows
+############################################
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+############################################
+# Editors / IDEs
+############################################
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code (giữ vài file mẫu nếu muốn)
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json.example
+!.vscode/launch.json.example
+!.vscode/tasks.json.example
+
+# JetBrains Rider / IntelliJ
+.idea/
+*.iml
+
+# ReSharper / Rider caches
+_ReSharper.Caches/
+*.DotSettings.user
+
+############################################
+# .NET / Build Artifacts
+############################################
+**/bin/
+**/obj/
+**/out/
+**/Debug/
+**/Release/
+**/x64/
+**/x86/
+**/ARM*/
+artifacts/
+*.ide/
+*.cache
+*.ilk
+*.pdb
+*.ipch
+*.obj
+*.iobj
+*.pch
+*.rsp
+*.tlh
+*.tli
+*.tmp
+*.tmp_proj
+*.log
+
+# NuGet
+**/packages/
+*.nupkg
+*.snupkg
+nuget.exe
+
+# SDK selection & local tools caches
+.dotnet/
+.global.json.user
+**/.store/
+**/.tools/
+
+############################################
+# ASP.NET Core / Hosting
+############################################
+# Static lib folder (nếu dùng LibMan)
+**/wwwroot/lib/
+
+# IIS Express
+**/.vs/*/config/applicationhost.config
+iisexpress.log
+iisexpress/
+
+# Kestrel Dev Certs / PFX
+*.pfx
+*.p12
+
+############################################
+# Config & Secrets
+############################################
+# (Commit appsettings.json bình thường; ignore file local/secret)
+appsettings.*.Local.json
+*.local.json
+secrets.json
+local.settings.json
+*.key
+*.cer
+*.pem
+.env
+.env.*
+
+############################################
+# Entity Framework Core / Databases
+############################################
+# (Migrations NÊN commit) -> KHÔNG ignore folder Migrations
+# LocalDB / SQL files
+*.mdf
+*.ldf
+*.ndf
+# DB dumps / tools
+*.bak
+*.dacpac
+*.bacpac
+*.sql
+
+############################################
+# Testing & Coverage
+############################################
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+.coverage/
+coverage/
+.coverlet/
+*.opencover.xml
+
+############################################
+# Publishing / Packaging
+############################################
+**/publish/
+**/app.publish/
+*.Publish.xml
+*.pubxml.user
+
+############################################
+# Logs / Temp
+############################################
+logs/
+*.log
+*.svclog
+*.tlog
+*.patch
+~$*
+*.tmp
+*.temp
+
+############################################
+# Docker (tuỳ dùng)
+############################################
+**/.dockerignore~
+**/docker-compose.override.yml
+**/docker-compose.*.override.yml
+
+############################################
+# Frontend tooling bên trong backend (nếu có)
+############################################
+node_modules/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+############################################
+# Others (tuỳ chọn)
+############################################
+# OneDrive temporary (nếu repo nằm trong OneDrive)
+~$*.doc*
+~$*.xlsx
+~$*.ppt*
