@@ -169,6 +169,8 @@ pnpm-debug.log*
 ~$*.xlsx
 ~$*.ppt*
 
+src/TravelBooking.API/appsettings.json
+# hoặc dùng rộng hơn:
 **/appsettings.Development.json
 **/appsettings.Production.json
 **/appsettings.Staging.json
