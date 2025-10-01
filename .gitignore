@@ -168,3 +168,9 @@ pnpm-debug.log*
 ~$*.doc*
 ~$*.xlsx
 ~$*.ppt*
+
+**/appsettings.Development.json
+**/appsettings.Production.json
+**/appsettings.Staging.json
+**/appsettings.*.Local.json
+**/*.local.json
