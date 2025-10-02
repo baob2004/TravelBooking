@@ -1,16 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using TravelBooking.Application.Abstractions.Repositories;
 using TravelBooking.Infrastructure.Identity;
 using TravelBooking.Infrastructure.Persistence;
+using TravelBooking.Infrastructure.Persistence.Repositories;
 
 namespace TravelBooking.Infrastructure.Extensions
 {
@@ -60,12 +58,8 @@ namespace TravelBooking.Infrastructure.Extensions
             });
 
             // ===== Repositories / UoW =====
-            // services.AddScoped<IUnitOfWork, EfUnitOfWork>();
-            // services.AddScoped<IHotelRepository, HotelRepository>();
-            // ... add các repo khác
-
-            // ===== Token Service (tạo JWT) =====
-            // services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             return services;
         }
