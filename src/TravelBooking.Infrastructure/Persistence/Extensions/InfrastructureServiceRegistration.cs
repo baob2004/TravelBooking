@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using TravelBooking.Application.Abstractions.Repositories;
+using TravelBooking.Application.Abstractions.Services.Identity;
+using TravelBooking.Application.Abstractions.Services.Security;
 using TravelBooking.Infrastructure.Identity;
 using TravelBooking.Infrastructure.Persistence;
 using TravelBooking.Infrastructure.Persistence.Repositories;
@@ -19,6 +21,7 @@ namespace TravelBooking.Infrastructure.Extensions
             services.AddDbContext<AppDbContext>(o =>
                 o.UseSqlServer(cfg.GetConnectionString("DefaultConnection")));
 
+            services.AddScoped<DbContext, AppDbContext>();
             // ===== Identity Core =====
             services.AddIdentityCore<AppUser>(opt =>
             {
@@ -30,7 +33,13 @@ namespace TravelBooking.Infrastructure.Extensions
             })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<AppDbContext>()
+            .AddSignInManager()
             .AddDefaultTokenProviders();
+
+            // ===== JWT Options + Service =====
+            services.Configure<JwtOptions>(cfg.GetSection("Jwt"));
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             // ===== JWT Auth =====
             var issuer = cfg["Jwt:Issuer"];
