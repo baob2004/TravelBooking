@@ -1,5 +1,6 @@
 using Scalar.AspNetCore;
 using TravelBooking.API.Extensions;
+using TravelBooking.Application.Extensions;
 using TravelBooking.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddGlobalExceptionMiddleware();
 
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
 
 var app = builder.Build();
 

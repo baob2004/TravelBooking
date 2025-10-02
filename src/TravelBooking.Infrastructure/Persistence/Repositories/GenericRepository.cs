@@ -79,22 +79,12 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
             e => EF.Property<object>(e, keyName) == id, ct);
     }
 
-    public IQueryable<T> Query()
-    {
-        return _db.AsQueryable<T>();
-    }
+    public IQueryable<T> Query(bool asNoTracking = true)
+        => asNoTracking ? _db.AsNoTracking() : _db;
 
     public void Remove(T entity)
     {
-        // if (entity is ISoftDelete soft)
-        // {
-        //     soft.IsDeleted = true;
-        //     _db.Update(entity);
-        // }
-        // else
-        // {
-        _db.Remove(entity); // bảng nối thì hard delete
-        // }
+        _db.Remove(entity);
     }
 
     public void Update(T entity)

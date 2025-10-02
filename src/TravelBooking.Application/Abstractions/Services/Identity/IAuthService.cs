@@ -12,5 +12,6 @@ namespace TravelBooking.Application.Abstractions.Services.Identity
         Task<AuthResponse> RegisterAsync(RegisterRequest req, CancellationToken ct = default);
         Task<AuthResponse> LoginAsync(LoginRequest req, CancellationToken ct = default);
         Task<(string UserId, string UserName, string Email, IEnumerable<string> Roles)?> GetCurrentAsync(ClaimsPrincipal principal, CancellationToken ct = default);
+        Task<AuthResponse> RefreshAsync(RefreshRequest req, CancellationToken ct = default);
     }
 }

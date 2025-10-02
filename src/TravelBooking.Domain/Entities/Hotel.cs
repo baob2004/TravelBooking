@@ -17,7 +17,7 @@ namespace TravelBooking.Domain.Entities
         public int RatingCount { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
-
+        public bool IsDeleted { get; set; } = false;
         // Nav
         public ICollection<HotelImage> Images { get; set; } = new List<HotelImage>();
         public ICollection<RoomType> RoomTypes { get; set; } = new List<RoomType>();

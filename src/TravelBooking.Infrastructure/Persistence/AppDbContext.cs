@@ -16,6 +16,7 @@ namespace TravelBooking.Infrastructure.Persistence
         public DbSet<Booking> Bookings => Set<Booking>();
         public DbSet<BookingItem> BookingItems => Set<BookingItem>();
         public DbSet<HotelImage> HotelImages => Set<HotelImage>();
+        public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
         protected override void OnModelCreating(ModelBuilder b)
         {

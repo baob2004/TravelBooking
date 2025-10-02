@@ -4,7 +4,7 @@ namespace TravelBooking.Application.Abstractions.Repositories;
 
 public interface IGenericRepository<T> where T : class
 {
-    IQueryable<T> Query();
+    IQueryable<T> Query(bool asNoTracking = true);
 
     Task<T?> GetByIdAsync(
         object id,

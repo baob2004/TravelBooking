@@ -8,6 +8,7 @@ namespace TravelBooking.Application.DTOs.Hotels
         public string AddressLine1 { get; set; } = string.Empty;
         public string? AddressLine2 { get; set; }
         public string State { get; set; } = string.Empty;
+        public string City { get; private set; } = default!;
         public string PostalCode { get; set; } = string.Empty;
         public string Country { get; set; } = string.Empty;
 

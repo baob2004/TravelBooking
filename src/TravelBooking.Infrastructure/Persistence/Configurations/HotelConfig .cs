@@ -24,6 +24,8 @@ namespace TravelBooking.Infrastructure.Persistence.Configurations
                 a.Property(p => p.PostalCode).HasMaxLength(20).HasColumnName("Address_PostalCode");
                 a.Property(p => p.Country).HasMaxLength(100).HasColumnName("Address_Country");
             });
+
+            b.HasQueryFilter(h => !h.IsDeleted);
         }
     }
 }

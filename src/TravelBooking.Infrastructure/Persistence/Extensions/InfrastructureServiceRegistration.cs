@@ -28,7 +28,7 @@ namespace TravelBooking.Infrastructure.Extensions
                 opt.User.RequireUniqueEmail = true;
                 opt.Password.RequireDigit = true;
                 opt.Password.RequireUppercase = true;
-                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireNonAlphanumeric = true;
                 opt.Password.RequiredLength = 8;
             })
             .AddRoles<IdentityRole>()
