@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using TravelBooking.Application.DTOs.Amenity;
 
 namespace TravelBooking.Application.DTOs.RoomTypes
 {
@@ -24,6 +25,7 @@ namespace TravelBooking.Application.DTOs.RoomTypes
 
         [Range(0, int.MaxValue)]
         public int RatingCount { get; set; }
+        public List<AmenityDto> Amenities { get; set; } = new();
 
     }
 }

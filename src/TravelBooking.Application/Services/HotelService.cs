@@ -1,6 +1,7 @@
 using AutoMapper;
 using TravelBooking.Application.Abstractions.Repositories;
 using TravelBooking.Application.Abstractions.Services;
+using TravelBooking.Application.DTOs.Amenity;
 using TravelBooking.Application.DTOs.Common;
 using TravelBooking.Application.DTOs.Hotels;
 using TravelBooking.Application.DTOs.RatePlans;
@@ -573,6 +574,124 @@ namespace TravelBooking.Application.Services
                 throw new InvalidOperationException("Cannot delete this rate plan because it is referenced by bookings.");
 
             _uow.RatePlans.Remove(entity);
+            await _uow.SaveChangesAsync(ct);
+        }
+
+        #endregion
+        #region Amenities
+        public async Task SetRoomTypeAmenitiesAsync(Guid roomTypeId, IReadOnlyCollection<Guid> amenityIds, CancellationToken ct)
+        {
+            if (roomTypeId == Guid.Empty) throw new ArgumentException("Invalid roomTypeId.", nameof(roomTypeId));
+
+            var roomType = await _uow.RoomTypes.GetByIdAsync(roomTypeId, asNoTracking: false, ct: ct)
+                          ?? throw new KeyNotFoundException("Room type not found.");
+
+            // Normalize input
+            var newSet = amenityIds is not null
+                ? new HashSet<Guid>(amenityIds.Where(id => id != Guid.Empty))
+                : new HashSet<Guid>();
+
+            // Validate amenity tồn tại
+            if (newSet.Count > 0)
+            {
+                var valid = await _uow.Amenities.GetAllAsync(a => newSet.Contains(a.Id), ct: ct);
+                var validSet = valid.Select(a => a.Id).ToHashSet();
+                newSet.IntersectWith(validSet);
+            }
+
+            // Lấy links hiện có
+            var existingLinks = await _uow.RoomTypeAmenities.GetAllAsync(
+                ha => ha.RoomTypeId == roomTypeId, asNoTracking: false, ct: ct);
+
+            var existingSet = existingLinks.Select(x => x.AmenityId).ToHashSet();
+
+            var toAdd = newSet.Except(existingSet).ToList();
+            var toRemove = existingSet.Except(newSet).ToList();
+
+            if (toAdd.Count > 0)
+            {
+                var links = toAdd.Select(aid => new RoomTypeAmenity { RoomTypeId = roomTypeId, AmenityId = aid }).ToList();
+                await _uow.RoomTypeAmenities.AddRangeAsync(links, ct);
+            }
+
+            if (toRemove.Count > 0)
+            {
+                foreach (var link in existingLinks.Where(x => toRemove.Contains(x.AmenityId)))
+                    _uow.RoomTypeAmenities.Remove(link);
+            }
+
+            await _uow.SaveChangesAsync(ct);
+        }
+
+        public async Task<Guid> CreateAmenityAsync(CreateAmenityRequest dto, CancellationToken ct)
+        {
+            if (dto is null) throw new ArgumentNullException(nameof(dto));
+            var name = (dto.Name ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Name is required.", nameof(dto.Name));
+
+            // Unique theo tên (case-sensitive/insensitive tuỳ DB; ở đây so sánh đúng chuỗi)
+            var exists = await _uow.Amenities.AnyAsync(a => a.Name == name, ct);
+            if (exists)
+                throw new InvalidOperationException("Amenity with the same name already exists.");
+
+            var entity = _mapper.Map<Amenity>(dto);
+            entity.Id = Guid.NewGuid();
+
+            await _uow.Amenities.AddAsync(entity, ct);
+            await _uow.SaveChangesAsync(ct);
+
+            return entity.Id;
+        }
+
+        public async Task UpdateAmenityAsync(Guid amenityId, UpdateAmenityRequest dto, CancellationToken ct)
+        {
+            if (amenityId == Guid.Empty) throw new ArgumentException("Invalid amenityId.", nameof(amenityId));
+            if (dto is null) throw new ArgumentNullException(nameof(dto));
+
+            var entity = await _uow.Amenities.GetByIdAsync(amenityId, asNoTracking: false, ct: ct)
+                         ?? throw new KeyNotFoundException("Amenity not found.");
+
+            var name = (dto.Name ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Name is required.", nameof(dto.Name));
+
+            // Tránh trùng tên với tiện nghi khác
+            var dup = await _uow.Amenities.AnyAsync(a => a.Id != amenityId && a.Name == name, ct);
+            if (dup)
+                throw new InvalidOperationException("Another amenity with the same name already exists.");
+
+            _mapper.Map(dto, entity);         // set Name, Icon
+            entity.Name = name;                // bảo đảm đã trim
+
+            _uow.Amenities.Update(entity);
+            await _uow.SaveChangesAsync(ct);
+        }
+
+        public async Task DeleteAmenityAsync(Guid amenityId, CancellationToken ct)
+        {
+            if (amenityId == Guid.Empty) throw new ArgumentException("Invalid amenityId.", nameof(amenityId));
+
+            var entity = await _uow.Amenities.GetByIdAsync(amenityId, asNoTracking: false, ct: ct)
+                         ?? throw new KeyNotFoundException("Amenity not found.");
+
+            // Lấy toàn bộ liên kết đang sử dụng amenity này
+            var links = await _uow.RoomTypeAmenities.GetAllAsync(
+                x => x.AmenityId == amenityId,
+                asNoTracking: false,
+                ct: ct
+            );
+
+            // Gỡ liên kết trước (detach)
+            if (links.Count > 0)
+            {
+                foreach (var link in links)
+                    _uow.RoomTypeAmenities.Remove(link);
+            }
+
+            // Xoá amenity
+            _uow.Amenities.Remove(entity);
+
             await _uow.SaveChangesAsync(ct);
         }
 

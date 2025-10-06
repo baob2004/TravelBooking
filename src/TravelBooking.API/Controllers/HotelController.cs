@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TravelBooking.Application.Abstractions.Services;
+using TravelBooking.Application.DTOs.Amenity;
 using TravelBooking.Application.DTOs.Common;             // PagedQuery, PagedResult<T>
 using TravelBooking.Application.DTOs.Hotels;
 using TravelBooking.Application.DTOs.RatePlans;
@@ -13,7 +14,7 @@ namespace TravelBooking.API.Controllers
     public class HotelController(IHotelService service) : ControllerBase
     {
         #region Hotels
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         [HttpGet]
         public Task<PagedResult<HotelSummaryDto>> GetPagedAsync(
             [FromQuery] HotelFilter filter,
@@ -131,6 +132,35 @@ namespace TravelBooking.API.Controllers
             await service.DeleteRatePlanAsync(ratePlanId, ct);
             return NoContent();
         }
+        #endregion
+        #region Amentities
+        [HttpPost("amenities")]
+        public async Task<IActionResult> CreateAmenity([FromBody] CreateAmenityRequest dto, CancellationToken ct)
+        {
+            var id = await service.CreateAmenityAsync(dto, ct);
+            return StatusCode(StatusCodes.Status201Created, new { id });
+        }
+
+        [HttpPut("amenities/{amenityId:guid}")]
+        public async Task<IActionResult> UpdateAmenity(Guid amenityId, [FromBody] UpdateAmenityRequest dto, CancellationToken ct)
+        {
+            await service.UpdateAmenityAsync(amenityId, dto, ct);
+            return NoContent();
+        }
+
+        [HttpDelete("amenities/{amenityId:guid}")]
+        public async Task<IActionResult> DeleteAmenity(Guid amenityId, CancellationToken ct)
+        {
+            await service.DeleteAmenityAsync(amenityId, ct);
+            return NoContent();
+        }
+        [HttpPut("room-types/{roomTypeId:guid}/amenities")]
+        public async Task<IActionResult> SetRoomTypeAmenities(Guid roomTypeId, [FromBody] SetRoomTypeAmenitiesRequest body, CancellationToken ct)
+        {
+            await service.SetRoomTypeAmenitiesAsync(roomTypeId, body?.AmenityIds ?? [], ct: ct);
+            return NoContent();
+        }
+
         #endregion
     }
 }

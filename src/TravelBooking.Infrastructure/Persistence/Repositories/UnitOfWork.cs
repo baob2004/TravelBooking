@@ -12,6 +12,8 @@ namespace TravelBooking.Infrastructure.Persistence.Repositories
         private readonly IGenericRepository<RatePlan> _ratePlantRepo;
         private readonly IGenericRepository<BookingItem> _bookingItemRepo;
         private readonly IGenericRepository<Inventory> _inventoryRepo;
+        private readonly IGenericRepository<Amenity> _amenityRepo;
+        private readonly IGenericRepository<RoomTypeAmenity> _roomTypeAmenityRepo;
 
         public UnitOfWork
         (
@@ -21,7 +23,9 @@ namespace TravelBooking.Infrastructure.Persistence.Repositories
             IGenericRepository<RoomType> roomTypeRepo,
             IGenericRepository<RatePlan> ratePlantRepo,
             IGenericRepository<BookingItem> bookingItemRepo,
-            IGenericRepository<Inventory> inventoryRepo
+            IGenericRepository<Inventory> inventoryRepo,
+            IGenericRepository<Amenity> amenityRepo,
+            IGenericRepository<RoomTypeAmenity> roomTypeAmenityRepo
         )
         {
             _context = context;
@@ -31,6 +35,8 @@ namespace TravelBooking.Infrastructure.Persistence.Repositories
             _ratePlantRepo = ratePlantRepo;
             _bookingItemRepo = bookingItemRepo;
             _inventoryRepo = inventoryRepo;
+            _amenityRepo = amenityRepo;
+            _roomTypeAmenityRepo = roomTypeAmenityRepo;
         }
 
         public IGenericRepository<Hotel> Hotels => _hotelRepo;
@@ -44,6 +50,10 @@ namespace TravelBooking.Infrastructure.Persistence.Repositories
         public IGenericRepository<BookingItem> BookingItems => _bookingItemRepo;
 
         public IGenericRepository<Inventory> Inventories => _inventoryRepo;
+
+        public IGenericRepository<Amenity> Amenities => _amenityRepo;
+
+        public IGenericRepository<RoomTypeAmenity> RoomTypeAmenities => _roomTypeAmenityRepo;
 
         public ValueTask DisposeAsync()
         {

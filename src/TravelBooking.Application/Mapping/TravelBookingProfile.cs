@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using TravelBooking.Application.DTOs.Amenity;
 using TravelBooking.Application.DTOs.Booking;
 using TravelBooking.Application.DTOs.Hotels;
 using TravelBooking.Application.DTOs.RatePlans;
@@ -87,8 +88,15 @@ namespace TravelBooking.Application.Mapping
                 .ForMember(d => d.RatePlanName, o => o.Ignore());
             // ========== Rating ==========
             CreateMap<Rating, RatingDto>();
+            // ========== Amenity ==========
+            CreateMap<Amenity, AmenityDto>();
+            CreateMap<CreateAmenityRequest, Amenity>()
+                .ForMember(d => d.Id, o => o.Ignore())
+                .ForMember(d => d.Name, o => o.MapFrom(s => s.Name.Trim()));
 
-
+            CreateMap<UpdateAmenityRequest, Amenity>()
+                .ForMember(d => d.Id, o => o.Ignore())
+                .ForMember(d => d.Name, o => o.MapFrom(s => s.Name.Trim()));
         }
     }
 }

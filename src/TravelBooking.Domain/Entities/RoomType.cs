@@ -24,5 +24,6 @@ namespace TravelBooking.Domain.Entities
         public ICollection<RatePlan> RatePlans { get; set; } = new List<RatePlan>();
         public ICollection<Inventory> Inventories { get; set; } = new List<Inventory>();
         public ICollection<Rating> Ratings { get; set; } = new List<Rating>();
+        public ICollection<RoomTypeAmenity> RoomTypeAmenities { get; set; } = new List<RoomTypeAmenity>();
     }
 }

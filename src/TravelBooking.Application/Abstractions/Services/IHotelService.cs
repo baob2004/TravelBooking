@@ -1,3 +1,4 @@
+using TravelBooking.Application.DTOs.Amenity;
 using TravelBooking.Application.DTOs.Common;
 using TravelBooking.Application.DTOs.Hotels;
 using TravelBooking.Application.DTOs.RatePlans;
@@ -28,5 +29,10 @@ namespace TravelBooking.Application.Abstractions.Services
         Task<Guid> CreateRatePlanAsync(CreateRatePlanRequest dto, CancellationToken ct);
         Task UpdateRatePlanAsync(Guid ratePlanId, UpdateRatePlanRequest dto, CancellationToken ct);
         Task DeleteRatePlanAsync(Guid ratePlanId, CancellationToken ct);
+        // ==== Amenities ====
+        Task SetRoomTypeAmenitiesAsync(Guid roomTypeId, IReadOnlyCollection<Guid> amenityIds, CancellationToken ct);
+        Task<Guid> CreateAmenityAsync(CreateAmenityRequest dto, CancellationToken ct);
+        Task UpdateAmenityAsync(Guid amenityId, UpdateAmenityRequest dto, CancellationToken ct);
+        Task DeleteAmenityAsync(Guid amenityId, CancellationToken ct);
     }
 }
