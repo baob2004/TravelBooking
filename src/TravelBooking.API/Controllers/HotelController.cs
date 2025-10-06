@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TravelBooking.Application.Abstractions.Services;
 using TravelBooking.Application.DTOs.Common;             // PagedQuery, PagedResult<T>
@@ -12,6 +13,7 @@ namespace TravelBooking.API.Controllers
     public class HotelController(IHotelService service) : ControllerBase
     {
         #region Hotels
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public Task<PagedResult<HotelSummaryDto>> GetPagedAsync(
             [FromQuery] HotelFilter filter,

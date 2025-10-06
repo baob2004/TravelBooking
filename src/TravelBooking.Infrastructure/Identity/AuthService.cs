@@ -126,6 +126,9 @@ namespace TravelBooking.Infrastructure.Identity
                 throw new InvalidOperationException(error);
             }
 
+            const string defaultRole = "User";
+            await _userManager.AddToRoleAsync(user, defaultRole);
+
             var roles = await _userManager.GetRolesAsync(user);
             var access = _tokenService.CreateAccessToken(user.Id, user.UserName, user.Email, roles);
 

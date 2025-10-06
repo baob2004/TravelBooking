@@ -12,7 +12,7 @@ namespace TravelBooking.Domain.Entities
         public Guid? RoomTypeId { get; set; }
         public Guid CustomerId { get; set; }
         public Guid? BookingId { get; set; }
-        public int Score { get; set; }              // 1..5
+        public float Score { get; set; }              // 1..5
         public string? Title { get; set; }
         public string? Comment { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

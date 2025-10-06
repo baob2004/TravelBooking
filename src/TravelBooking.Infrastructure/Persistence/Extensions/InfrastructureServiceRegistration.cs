@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -66,7 +67,8 @@ namespace TravelBooking.Infrastructure.Extensions
                     ValidAudience = cfg["JWT:Audience"],
                     ValidateLifetime = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(cfg["JWT:Key"]!)),
-                    ValidateIssuerSigningKey = true
+                    ValidateIssuerSigningKey = true,
+                    RoleClaimType = ClaimTypes.Role
                 };
             });
 

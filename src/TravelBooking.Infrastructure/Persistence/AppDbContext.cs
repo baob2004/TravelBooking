@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TravelBooking.Domain.Entities;
@@ -21,6 +22,16 @@ namespace TravelBooking.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder b)
         {
             base.OnModelCreating(b);
+            // === Role ===
+            List<IdentityRole> roles =
+            [
+                new IdentityRole { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
+                new IdentityRole { Id = "2", Name = "User", NormalizedName = "USER" },
+            ];
+            b.Entity<IdentityRole>().HasData(
+                new IdentityRole { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
+                new IdentityRole { Id = "2", Name = "User", NormalizedName = "USER" }
+            );
             b.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
     }
