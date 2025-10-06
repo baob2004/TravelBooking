@@ -22,6 +22,10 @@ namespace TravelBooking.Infrastructure.Extensions
                 o.UseSqlServer(cfg.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<DbContext, AppDbContext>();
+            // ===== Repositories / UoW =====
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
             // ===== Identity Core =====
             services.AddIdentityCore<AppUser>(opt =>
             {
@@ -65,10 +69,6 @@ namespace TravelBooking.Infrastructure.Extensions
                     ValidateIssuerSigningKey = true
                 };
             });
-
-            // ===== Repositories / UoW =====
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             return services;
         }

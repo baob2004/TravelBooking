@@ -8,5 +8,6 @@ namespace TravelBooking.Application.DTOs.Hotels
         public decimal AverageRating { get; set; }
         public int RatingCount { get; set; }
         public string City { get; set; } = string.Empty;
+        public string? CoverImageUrl { get; set; }
     }
 }

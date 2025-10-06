@@ -1,3 +1,5 @@
+using TravelBooking.Application.DTOs.RatePlans;
+using TravelBooking.Application.DTOs.Ratings;
 using TravelBooking.Application.DTOs.RoomTypes;
 
 namespace TravelBooking.Application.DTOs.Hotels
@@ -14,5 +16,7 @@ namespace TravelBooking.Application.DTOs.Hotels
 
         public List<HotelImageDto> Images { get; set; } = new();
         public List<RoomTypeDto> RoomTypes { get; set; } = new();
+        public List<RatePlanDto> RatePlans { get; set; } = new();
+        public List<RatingDto> Ratings { get; set; } = new();
     }
 }

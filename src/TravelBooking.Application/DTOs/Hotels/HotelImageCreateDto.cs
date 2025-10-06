@@ -10,5 +10,6 @@ namespace TravelBooking.Application.DTOs.Hotels
         public required string Url { get; init; }
         public bool IsCover { get; init; } = false;
         public string? Caption { get; init; }
+        public int? SortOrder { get; set; }
     }
 }
